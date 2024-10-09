@@ -1,42 +1,47 @@
-// Write an interface named Student that accepts the following elements: firstName(string), lastName(string), age(number), and location(string)
-// Create two students, and create an array named studentsList containing the two variables
-// Using Vanilla Javascript, render a table and for each elements in the array, append a new row to the table
-// Each row should contain the first name of the student and the location
+export interface Student {
+  firstName: string;
+  lastName: string;
+  age: number;
+  location: string;
+}
+const student1: Student = {
+  firstName: 'First',
+  lastName: 'Student',
+  age: 20,
+  location: 'Nairobi',
+};
+const student2: Student = {
+  firstName: 'Second',
+  lastName: 'Student',
+  age: 100,
+  location: 'Nairobi',
+};
 
-// Define the Student interface
-interface Student {
-	firstName: string;
-	lastName: string;
-	age: number;
-	location: string;
+const studentsList: Array<Student> = [student1, student2];
+
+function render(students: Array<Student>) {
+  const table = document.createElement('TABLE');
+  const thead = document.createElement('THEAD');
+  const thead_tr = document.createElement('TR');
+  const tbody = document.createElement('TBODY');
+  Object.keys(students[0]).forEach((k) => {
+    const th = document.createElement('TH');
+    th.innerText = k;
+    thead_tr.appendChild(th);
+  });
+  thead.appendChild(thead_tr);
+  table.appendChild(thead);
+  students.forEach((student: Student) => {
+    const tr = document.createElement('TR');
+    Object.values(student).forEach((v) => {
+      const td = document.createElement('TD');
+      td.innerText = v.toString();
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  document.querySelector('body').appendChild(table);
 }
 
-// Create two student objects
-const firstStudent: Student = {
-	firstName: "Abba",
-	lastName: "Daniel",
-	age: 42,
-	location: "Lagos"
-}
-
-const secondStudent: Student = {
-	firstName: "Peter",
-	lastName: "Alhassan",
-	age: 63,
-	location: "Kano"
-}
-
-// Create an array of students
-const studentsList = [firstStudent, secondStudent];
-
-const table = document.getElementById('studentTable') as HTMLTableElement;
-
-// Create a new row for each student and append it to the table
-studentsList.forEach((student) => {
-	const row = table.insertRow();
-	const firstNameCell = row.insertCell(0);
-	const locationCell = row.insertCell(1);
-
-	firstNameCell.innerHTML = student.firstName;
-	locationCell.innerHTML = student.location;
-})
+render(studentsList);
